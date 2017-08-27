@@ -1,0 +1,42 @@
+<div>
+  <h3>Web Payments Merchant Example</h3>
+  <p>
+    This is a credential verifier (relying party) demonstration website.
+    <a href="" ng-click="$ctrl.showDetails=!$ctrl.showDetails">Show technical details</a>
+  </p>
+  <div ng-if="$ctrl.showDetails">
+    <p>This website uses the Payment Handler API polyfill. It calls
+    code that looks like this to request payment:</p>
+    <pre>
+      async function pay() {
+        try {
+          const pr = new PaymentRequest([{
+            supportedMethods: ['basic-card']
+          }], {
+            total: {
+              label: 'Total',
+              amount: {currency: 'USD', value: '1.00'}
+            }
+          });
+          const response = await pr.show();
+          console.log('payment response', response);
+        } catch(e) {
+          console.error(e);
+        }
+      };
+    </pre>
+  </div>
+  <div>
+    Item X
+  </div>
+  <div>
+    $1.00
+  </div>
+  <div>
+    <button ng-click="$ctrl.buy()">Buy</button>
+  </div>
+  <div ng-if="$ctrl.paymentDetails">
+    <div>Payment complete, here's all of your payment credentials! =)</div>
+    <pre>{{$ctrl.paymentDetails | json}}</pre>
+  </div>
+</div>

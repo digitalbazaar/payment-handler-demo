@@ -1,0 +1,33 @@
+<div ng-if="$ctrl.display === 'permissionRequest'">
+  <wrm-permission-dialog
+    wrm-origin="$ctrl.relyingDomain"
+    wrm-permissions="$ctrl.permissions"
+    wrm-on-deny="$ctrl.deny()" wrm-on-allow="$ctrl.accept()"></wrm-permission-dialog>
+</div>
+
+<div ng-if="$ctrl.display === 'paymentRequest'">
+  <wrm-item-chooser wrm-items="$ctrl.paymentInstrumentOptions"
+    wrm-on-select="$ctrl.selectPaymentInstrument(item)"
+    wrm-on-cancel="$ctrl.selectPaymentInstrument()">
+    <wrm-item-chooser-header>
+      <div>
+        <strong>{{$ctrl.relyingDomain}}</strong> is requesting payment
+      </div>
+      <div>
+        <div><strong>Order Summary:</strong></div>
+        <div>{{$ctrl.paymentRequest.details.total.label}} <span style="float: right">{{$ctrl.paymentRequest.details.total.amount.currency}} {{$ctrl.paymentRequest.details.total.amount.value}}</span></div>
+      </div>
+      <div ng-if="$ctrl.loading">
+        Loading payment options...
+      </div>
+      <div ng-if="!ctrl.loading">
+        <div ng-if="$ctrl.paymentInstrumentOptions.length === 0">
+          TODO: Oh no, you don't have what you need
+        </div>
+        <div ng-if="$ctrl.paymentInstrumentOptions.length > 0">
+          Payment:
+        </div>
+      </div>
+    </wrm-item-chooser-header>
+  </wrm-item-chooser>
+</div>
