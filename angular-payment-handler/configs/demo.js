@@ -21,6 +21,7 @@ bedrock.events.on('bedrock-express.ready', app => {
 // server info
 config.server.port = 18081;
 config.server.httpPort = 18080;
+config.server.bindAddr = ['10.20.40.70'];
 config.server.domain = 'payment-handler.demo.digitalbazaar.com';
 config.server.host = 'payment-handler.demo.digitalbazaar.com';
 config.server.baseUri = 'https://' + config.server.host;
