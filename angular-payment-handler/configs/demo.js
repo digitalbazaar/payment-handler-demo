@@ -19,8 +19,8 @@ bedrock.events.on('bedrock-express.ready', app => {
 });
 
 // server info
-config.server.port = 20081;
-config.server.httpPort = 20080;
+config.server.port = 18081;
+config.server.httpPort = 18080;
 config.server.domain = 'payment-handler.demo.digitalbazaar.com';
 config.server.host = 'payment-handler.demo.digitalbazaar.com';
 config.server.baseUri = 'https://' + config.server.host;
@@ -36,16 +36,3 @@ config.paths.log = path.join('/var', 'log', 'payment-handler');
 // core configuration
 config.core.workers = 1;
 config.core.worker.restart = true;
-
-// master process while starting
-config.core.starting.groupId = 'adm';
-config.core.starting.userId = 'root';
-
-// master and workers after starting
-config.core.running.groupId = 'bedrock';
-config.core.running.userId = 'bedrock';
-
-// logging
-config.loggers.app.bedrock.enableChownDir = true;
-config.loggers.access.bedrock.enableChownDir = true;
-config.loggers.error.bedrock.enableChownDir = true;
