@@ -7,7 +7,7 @@ import creditCardType from 'credit-card-type';
 
 export default {
   bindings: {
-    //onAdd: '&phOnAdd'
+    onAdd: '&phOnAdd'
   },
   controller: Ctrl,
   templateUrl: 'angular-payment-handler/add-credit-card-component.html'
@@ -56,6 +56,7 @@ function Ctrl() {
       const card = creditCardType(self.card.number)[0];
       console.log('card', card);
       if(card && card.type in supportedCards) {
+        self.card.type = card.type;
         self.cardClass['fa-cc-' + supportedCards[card.type]] = true;
       }
     }

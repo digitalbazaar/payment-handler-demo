@@ -1,0 +1,13 @@
+<md-content class="md-padding" layout="column">
+  <md-card>
+    <md-card-title>
+      <md-card-title-text>
+        <span class="md-headline">{{$ctrl.card.name}}</span>
+        <span class="md-subhead">*{{$ctrl.card.number | limitTo:4:12}}</span>
+      </md-card-title-text>
+      <md-card-title-media>
+        <div class="md-media-sm card-media fa {{$ctrl.cardIcon}} fa-4x"></div>
+      </md-card-title-media>
+    </md-card-title>
+  </md-card>
+</md-content>

@@ -37,6 +37,10 @@ function Ctrl($scope) {
       console.error('uninstallation failed,', e);
     }
   };
+
+  self.addCard = async () => {
+    // TODO:
+  };
 }
 
 async function install() {

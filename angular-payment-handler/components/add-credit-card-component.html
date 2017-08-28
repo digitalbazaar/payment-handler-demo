@@ -1,52 +1,74 @@
 <div layout="column" layout-padding>
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h3>
+        <span>Add Credit Card</span>
+      </h3>
+    </div>
+  </md-toolbar>
+
   <md-content>
     <form name="$ctrl.cardForm">
-      <md-input-container class="md-icon-float md-block">
-        <label>Credit card number</label>
-        <md-icon md-font-icon="fa fa-credit-card" ng-class="$ctrl.cardClass"></md-icon>
-        <input ng-model="$ctrl.card.number" ng-change="$ctrl.onChange()"
-        type="text" ng-pattern="/^[0-9]{16}$/"
-        md-minlength="16" md-maxlength="16" required>
-      </md-input-container>
+      <div layout="row">
+        <md-input-container class="md-block" flex flex-gt-xs="50" flex-gt-sm="40">
+          <label>Name (as it appears on the card)</label>
+          <input ng-model="$ctrl.card.name" type="text" required>
+        </md-input-container>
+      </div>
+
+      <div layout="row">
+        <md-input-container class="md-icon-float" flex flex-gt-xs="50" flex-gt-sm="40">
+          <label>Credit card number</label>
+          <input ng-model="$ctrl.card.number" ng-change="$ctrl.onChange()"
+          type="text" ng-pattern="/^[0-9]{16}$/"
+          md-minlength="16" md-maxlength="16" required>
+          <md-icon md-font-icon="fa fa-credit-card" ng-class="$ctrl.cardClass"></md-icon>
+        </md-input-container>
+      </div>
 
       <div layout-gt-sm="row">
-        <md-input-container flex-gt-sm>
-          <label>Expiration month</label>
-          <md-select ng-model="$ctrl.card.expirationMonth" required>
+        <md-input-container md-no-float>
+          <label>Expires</label>
+          <md-select ng-model="$ctrl.card.expirationMonth"
+            placeholder="Expiration month" required>
             <md-option ng-repeat="(key, value) in $ctrl.months" ng-value="value">
               {{key}}
             </md-option>
           </md-select>
         </md-input-container>
 
-        <md-input-container flex-gt-sm>
-          <label>Expiration year</label>
-          <md-select ng-model="$ctrl.card.expirationYear" required>
+        <md-input-container md-no-float>
+          <md-select ng-model="$ctrl.card.expirationYear"
+            placeholder="Expiration year" required>
             <md-option ng-repeat="(key, value) in $ctrl.years" ng-value="value">
               {{key}}
             </md-option>
           </md-select>
         </md-input-container>
-      </div>
 
-      <md-input-container class="md-icon-float md-block">
-        <label>Security code</label>
-        <md-icon md-font-icon="fa fa-money"></md-icon>
-        <input name="securityCode" ng-model="$ctrl.card.securityCode"
-          placeholder="123" ng-pattern="/^[0-9]{3}$/" md-maxlength="3"
-          required>
-        <div ng-messages="$ctrl.cardForm.securityCode.$error" role="alert" multiple>
-          <div ng-message="required">
-            You must supply a security code.
-          </div>
-          <div ng-message="pattern">
-            That doesn't look like a valid security code.
-          </div>
-          <div ng-message="md-maxlength">
-            That's too long.
-          </div>
+        <div layout-lt-xs="row">
+          <md-input-container flex="30" flex-gt-sm="60">
+            <label>Security code</label>
+            <input name="securityCode" ng-model="$ctrl.card.securityCode"
+              placeholder="123" ng-pattern="/^[0-9]{3}$/" md-maxlength="3"
+              required>
+            <div ng-messages="$ctrl.cardForm.securityCode.$error" role="alert" multiple>
+              <div ng-message="required">
+                You must provide a security code.
+              </div>
+              <div ng-message="pattern">
+                That doesn't look like a valid security code.
+              </div>
+              <div ng-message="md-maxlength">
+                That's too long.
+              </div>
+            </div>
+          </md-input-container>
         </div>
-      </md-input-container>
+      </div>
     </form>
   </md-content>
+
+  <md-button ng-click="$ctrl.onAdd({card: $ctrl.card})"
+    class="md-raised md-primary">Add</md-button>
 </div>

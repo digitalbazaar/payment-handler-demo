@@ -6,6 +6,7 @@ import * as bedrock from 'bedrock-angular';
 import * as polyfill from 'payment-handler-polyfill';
 import {activate as activateHandler} from './payment-handler.js';
 import AddCreditCardComponent from './add-credit-card-component.js';
+import CreditCardComponent from './credit-card-component.js';
 import HomeComponent from './home-component.js';
 import PaymentRequestComponent from './payment-request-component.js';
 
@@ -13,6 +14,7 @@ import PaymentRequestComponent from './payment-request-component.js';
 
 const module = angular.module('angular-payment-handler', ['ngMaterial']);
 module.component('phAddCreditCard', AddCreditCardComponent);
+module.component('phCreditCard', CreditCardComponent);
 module.component('phHome', HomeComponent);
 module.component('phPaymentRequest', PaymentRequestComponent);
 

@@ -1,5 +1,6 @@
-<div>
+<div layout="column">
   <h3>Payment Handler Example</h3>
+
   <div>
     <a href="" ng-click="$ctrl.install()">Install Payment Handler</a>
   </div>
@@ -7,5 +8,18 @@
     <a href="" ng-click="$ctrl.uninstall()">Uninstall Payment Handler</a>
   </div>
 
-  <ph-add-credit-card></ph-add-credit-card>
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h3>
+        <span>Credit Cards</span>
+      </h3>
+    </div>
+  </md-toolbar>
+
+  <ph-credit-card></ph-credit-card>
+
+  <!-- TODO: do add-credit-card in a dialog? -->
+
+  <ph-add-credit-card ph-on-add="$ctrl.addCard(card)" flex flex-gt-sm="30">
+  </ph-add-credit-card>
 </div>
