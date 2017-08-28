@@ -86,7 +86,27 @@ async function addInstruments(registration) {
     registration.paymentManager.instruments.set(
       'default',
       {
-        name: 'Default',
+        name: 'Visa *1234',
+        enabledMethods: ['basic-card'],
+        capabilities: {
+          supportedNetworks: ['visa', 'mastercard', 'amex', 'discover'],
+          supportedTypes: ['credit', 'debit', 'prepaid']
+        }
+      }),
+    registration.paymentManager.instruments.set(
+      'option1',
+      {
+        name: 'Mastercard *5678',
+        enabledMethods: ['basic-card'],
+        capabilities: {
+          supportedNetworks: ['visa', 'mastercard', 'amex', 'discover'],
+          supportedTypes: ['credit', 'debit', 'prepaid']
+        }
+      }),
+    registration.paymentManager.instruments.set(
+      'option2',
+      {
+        name: 'Amex *2233',
         enabledMethods: ['basic-card'],
         capabilities: {
           supportedNetworks: ['visa', 'mastercard', 'amex', 'discover'],

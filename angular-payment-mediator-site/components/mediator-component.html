@@ -6,10 +6,12 @@
 </div>
 
 <div ng-if="$ctrl.display === 'paymentRequest'">
-  <wrm-item-chooser wrm-items="$ctrl.paymentInstrumentOptions"
-    wrm-on-select="$ctrl.selectPaymentInstrument(item)"
+  <wrm-hint-chooser wrm-hints="$ctrl.paymentInstrumentOptions"
+    wrm-confirm-button="true"
+    wrm-confirm-button-text="Pay"
+    wrm-on-confirm="$ctrl.selectPaymentInstrument(hint)"
     wrm-on-cancel="$ctrl.selectPaymentInstrument()">
-    <wrm-item-chooser-header>
+    <wrm-hint-chooser-header>
       <div>
         <strong>{{$ctrl.relyingDomain}}</strong> is requesting payment
       </div>
@@ -29,6 +31,6 @@
           Payment:
         </div>
       </div>
-    </wrm-item-chooser-header>
-  </wrm-item-chooser>
+    </wrm-hint-chooser-header>
+  </wrm-hint-chooser>
 </div>
