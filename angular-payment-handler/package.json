@@ -4,23 +4,29 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "start": "node ./lib/index.js",
-    "postinstall": "node ./lib/index.js compile-less"
+    "start": "node dev.js",
+    "postinstall": "node dev.js compile-less"
   },
   "dependencies": {
     "bedrock": "^1.4.1",
     "bedrock-angular": "^3.0.0",
+    "bedrock-angular-material": "^1.0.1",
     "bedrock-docs": "^2.1.0",
     "bedrock-express": "^2.0.6",
     "bedrock-server": "^2.2.0",
     "bedrock-validation": "^2.2.1",
     "bedrock-views": "^5.1.0",
     "bedrock-webpack": "^1.0.2",
+    "credit-card-type": "^5.0.4",
+    "font-awesome": "^4.7.0",
     "payment-handler-polyfill": "^0.1.0"
   },
   "bedrock": {
     "browserDependencies": [
       "bedrock-angular",
+      "bedrock-angular-material",
+      "credit-card-type",
+      "font-awesome",
       "payment-handler-polyfill"
     ]
   },

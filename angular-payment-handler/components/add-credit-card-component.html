@@ -1,0 +1,52 @@
+<div layout="column" layout-padding>
+  <md-content>
+    <form name="$ctrl.cardForm">
+      <md-input-container class="md-icon-float md-block">
+        <label>Credit card number</label>
+        <md-icon md-font-icon="fa fa-credit-card" ng-class="$ctrl.cardClass"></md-icon>
+        <input ng-model="$ctrl.card.number" ng-change="$ctrl.onChange()"
+        type="text" ng-pattern="/^[0-9]{16}$/"
+        md-minlength="16" md-maxlength="16" required>
+      </md-input-container>
+
+      <div layout-gt-sm="row">
+        <md-input-container flex-gt-sm>
+          <label>Expiration month</label>
+          <md-select ng-model="$ctrl.card.expirationMonth" required>
+            <md-option ng-repeat="(key, value) in $ctrl.months" ng-value="value">
+              {{key}}
+            </md-option>
+          </md-select>
+        </md-input-container>
+
+        <md-input-container flex-gt-sm>
+          <label>Expiration year</label>
+          <md-select ng-model="$ctrl.card.expirationYear" required>
+            <md-option ng-repeat="(key, value) in $ctrl.years" ng-value="value">
+              {{key}}
+            </md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+
+      <md-input-container class="md-icon-float md-block">
+        <label>Security code</label>
+        <md-icon md-font-icon="fa fa-money"></md-icon>
+        <input name="securityCode" ng-model="$ctrl.card.securityCode"
+          placeholder="123" ng-pattern="/^[0-9]{3}$/" md-maxlength="3"
+          required>
+        <div ng-messages="$ctrl.cardForm.securityCode.$error" role="alert" multiple>
+          <div ng-message="required">
+            You must supply a security code.
+          </div>
+          <div ng-message="pattern">
+            That doesn't look like a valid security code.
+          </div>
+          <div ng-message="md-maxlength">
+            That's too long.
+          </div>
+        </div>
+      </md-input-container>
+    </form>
+  </md-content>
+</div>

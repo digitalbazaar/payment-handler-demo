@@ -16,6 +16,7 @@
       <div>
         <div><strong>Order Summary:</strong></div>
         <div>{{$ctrl.paymentRequest.details.total.label}} <span style="float: right">{{$ctrl.paymentRequest.details.total.amount.currency}} {{$ctrl.paymentRequest.details.total.amount.value}}</span></div>
+        <!-- TODO: make clickable so it expands to show item list -->
       </div>
       <div ng-if="$ctrl.loading">
         Loading payment options...
