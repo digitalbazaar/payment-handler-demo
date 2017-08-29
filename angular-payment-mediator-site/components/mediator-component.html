@@ -7,6 +7,7 @@
 
 <div ng-if="$ctrl.display === 'paymentRequest'">
   <wrm-hint-chooser wrm-hints="$ctrl.paymentInstrumentOptions"
+    wrm-default-hint-icon="fa-credit-card"
     wrm-confirm-button="true"
     wrm-confirm-button-text="Pay"
     wrm-on-confirm="$ctrl.selectPaymentInstrument(hint)"
