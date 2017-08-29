@@ -12,7 +12,7 @@ config.server.port = 10443;
 config.server.httpPort = 10080;
 config.server.domain = 'example.merchant.dev';
 
-// angular-basic-merchant pseudo package
+// angular-payment-merchant pseudo package
 const rootPath = path.join(__dirname, '..');
 config.views.system.packages.push({
   path: path.join(rootPath, 'components'),
