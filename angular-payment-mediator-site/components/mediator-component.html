@@ -13,13 +13,24 @@
     wrm-on-confirm="$ctrl.selectPaymentInstrument(hint)"
     wrm-on-cancel="$ctrl.selectPaymentInstrument()">
     <wrm-hint-chooser-header>
-      <div>
+      <div style="padding-right: 10px">
         <strong>{{$ctrl.relyingDomain}}</strong> is requesting payment
       </div>
-      <div>
-        <div><strong>Order Summary:</strong></div>
+      <br>
+      <div class="wrm-heading">Order Summary</div>
+      <div ng-click="$ctrl.paymentRequest.details.displayItems.length > 0 &&
+        ($ctrl.showPaymentItems = !$ctrl.showPaymentItems)"
+        ng-class="{
+          'wrm-item': true,
+          'wrm-selectable': $ctrl.paymentRequest.details.displayItems.length > 0
+        }">
         <div>{{$ctrl.paymentRequest.details.total.label}} <span style="float: right">{{$ctrl.paymentRequest.details.total.amount.currency}} {{$ctrl.paymentRequest.details.total.amount.value}}</span></div>
-        <!-- TODO: make clickable so it expands to show item list -->
+        <div ng-if="$ctrl.showPaymentItems">
+          <div class="wrm-separator"></div>
+          <div ng-repeat="paymentItem in $ctrl.paymentRequest.details.displayItems">
+            {{paymentItem.label}} <span style="float: right">{{paymentItem.amount.currency}} {{paymentItem.amount.value}}</span>
+          </div>
+        </div>
       </div>
       <div ng-if="$ctrl.loading">
         Loading payment options...
@@ -28,8 +39,9 @@
         <div ng-if="$ctrl.paymentInstrumentOptions.length === 0">
           TODO: Oh no, you don't have what you need
         </div>
-        <div ng-if="$ctrl.paymentInstrumentOptions.length > 0">
-          Payment:
+        <div ng-if="$ctrl.paymentInstrumentOptions.length > 0"
+          class="wrm-heading">
+          Payment method
         </div>
       </div>
     </wrm-hint-chooser-header>

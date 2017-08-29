@@ -18,6 +18,14 @@ function Ctrl($scope) {
     const pr = new PaymentRequest([{
       supportedMethods: ['basic-card']
     }], {
+      // displayItems not strictly required
+      displayItems: [{
+        label: 'Sub total',
+        amount: {currency: 'USD', value: '0.95'}
+      }, {
+        label: 'Sales tax',
+        amount: {currency: 'USD', value: '0.05'}
+      }],
       total: {
         label: 'Total',
         amount: {currency: 'USD', value: '1.00'}
