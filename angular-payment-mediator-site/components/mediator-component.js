@@ -149,7 +149,10 @@ function Ctrl($compile, $location, $scope) {
 function getIconDataUrl(paymentInstrument) {
   if(paymentInstrument.icons.length > 0) {
     // TODO: choose appropriately sized icon
-    // return icon.fetchedImage;
+    const icon = paymentInstrument.icons[0];
+    if(icon.fetchedImage) {
+      return icon;
+    }
   }
   return null;
 }

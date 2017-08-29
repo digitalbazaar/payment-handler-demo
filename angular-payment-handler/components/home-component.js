@@ -87,9 +87,14 @@ async function addInstruments(registration) {
       'default',
       {
         name: 'Visa *1234',
+        icons: [{
+          src: '/images/new_visa.gif',
+          sizes: '40x40',
+          type: 'image/gif'
+        }],
         enabledMethods: ['basic-card'],
         capabilities: {
-          supportedNetworks: ['visa', 'mastercard', 'amex', 'discover'],
+          supportedNetworks: ['visa'],
           supportedTypes: ['credit', 'debit', 'prepaid']
         }
       }),
@@ -97,9 +102,14 @@ async function addInstruments(registration) {
       'option1',
       {
         name: 'Mastercard *5678',
+        icons: [{
+          src: '/images/mastercard_logo_2.gif',
+          sizes: '40x40',
+          type: 'image/gif'
+        }],
         enabledMethods: ['basic-card'],
         capabilities: {
-          supportedNetworks: ['visa', 'mastercard', 'amex', 'discover'],
+          supportedNetworks: ['mastercard'],
           supportedTypes: ['credit', 'debit', 'prepaid']
         }
       }),
@@ -107,9 +117,14 @@ async function addInstruments(registration) {
       'option2',
       {
         name: 'Amex *2233',
+        icons: [{
+          src: '/images/american_express_logo_1.gif',
+          sizes: '40x40',
+          type: 'image/gif'
+        }],
         enabledMethods: ['basic-card'],
         capabilities: {
-          supportedNetworks: ['visa', 'mastercard', 'amex', 'discover'],
+          supportedNetworks: ['amex'],
           supportedTypes: ['credit', 'debit', 'prepaid']
         }
       })
