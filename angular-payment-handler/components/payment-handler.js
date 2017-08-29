@@ -4,8 +4,8 @@
 /* global navigator */
 'use strict';
 
-const MEDIATOR_ORIGIN = 'https://payment.mediator.dev:12443';
-//const MEDIATOR_ORIGIN = 'https://payment-mediator.demo.digitalbazaar.com';
+//const MEDIATOR_ORIGIN = 'https://payment.mediator.dev:12443';
+const MEDIATOR_ORIGIN = 'https://payment-mediator.demo.digitalbazaar.com';
 
 export async function activate() {
   console.log('payment handler activating!');
