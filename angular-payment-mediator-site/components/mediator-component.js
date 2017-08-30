@@ -64,8 +64,8 @@ function Ctrl($compile, $location, $scope) {
     }
 
     self.display = null;
-    await navigator.paymentMediator.hide();
     $scope.$apply();
+    await navigator.paymentMediator.hide();
   };
 
   self.abortPayment = async () => {
