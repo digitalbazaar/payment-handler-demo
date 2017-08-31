@@ -29,6 +29,10 @@ function Ctrl($scope) {
       self.paymentRequest.topLevelOrigin).hostname;
     self.card = await cardStorage.getItem(self.paymentRequest.instrumentKey);
     console.log('card', self.card);
+    if(!self.card) {
+      throw new Error(
+        'The payment instrument could not be retrieved from local storage.');
+    }
     delete self.card.key;
     self.loading = false;
     $scope.$apply();
