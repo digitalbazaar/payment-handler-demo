@@ -4,6 +4,8 @@
 /* global navigator */
 'use strict';
 
+import localforage from 'localforage';
+
 export default {
   controller: Ctrl,
   templateUrl: 'angular-payment-handler/home-component.html'
@@ -31,17 +33,19 @@ const CARD_ICONS = {
 function Ctrl($mdDialog, $scope) {
   const self = this;
 
+  const cardStorage = localforage.createInstance({name: 'cards'});
+
   let registration;
 
   self.$onInit = async () => {
     try {
       registration = await getRegistration();
-      self.instruments = await getInstruments(registration);
+      self.cards = await getCards(registration);
       self.installed = true;
     } catch(e) {
-      console.log('fail', e);
+      // assume permission denied for demo
       self.installed = false;
-      self.instruments = [];
+      self.cards = [];
     }
     $scope.$apply();
   };
@@ -60,6 +64,7 @@ function Ctrl($mdDialog, $scope) {
     try {
       self.installed = self.uninstalled = false;
       await uninstall();
+      await cardStorage.clear();
       self.uninstalled = true;
       registration = null;
       $scope.$apply();
@@ -89,11 +94,13 @@ function Ctrl($mdDialog, $scope) {
     }
 
     // add card
+    card.key = uuid();
+    await cardStorage.setItem(card.key, card);
     await addInstrument(registration, card);
 
-    // refresh instruments
-    self.instruments = await getInstruments(registration);
-    console.log('got instruments', self.instruments);
+    // refresh cards
+    self.cards = await getCards(registration);
+    console.log('got cards', self.cards);
 
     $scope.$apply();
   };
@@ -103,23 +110,29 @@ function Ctrl($mdDialog, $scope) {
   };
 
   self.cancelAddCard = async () => {
-    console.log('called cancel');
     $mdDialog.cancel();
   };
 
   self.clearCards = async () => {
-    console.log('clearing instruments');
+    console.log('clearing cards');
+    await cardStorage.clear();
     await registration.paymentManager.instruments.clear();
-    self.instruments = await getInstruments(registration);
+    self.cards = await getCards(registration);
     $scope.$apply();
   };
 
-  self.deleteInstrument = async (instrument) => {
-    console.log('deleting instrument', instrument);
-    await registration.paymentManager.instruments.delete(instrument.key);
-    self.instruments = await getInstruments(registration);
+  self.deleteCard = async (card) => {
+    console.log('deleting card', card);
+    await cardStorage.setItem(card.key, card);
+    await registration.paymentManager.instruments.delete(card.key);
+    self.cards = await getCards(registration);
     $scope.$apply();
   };
+
+  async function getCards(registration) {
+    const keys = await registration.paymentManager.instruments.keys();
+    return await Promise.all(keys.map(key => cardStorage.getItem(key)));
+  }
 }
 
 async function getRegistration() {
@@ -235,7 +248,7 @@ async function addInstrument(registration, card) {
   const icon = CARD_ICONS[card.type];
 
   return registration.paymentManager.instruments.set(
-    uuid(), {
+    card.key, {
       name: name,
       icons: icon ? [icon] : [],
       enabledMethods: ['basic-card'],

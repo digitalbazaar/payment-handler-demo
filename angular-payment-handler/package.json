@@ -17,9 +17,10 @@
     "bedrock-server": "^2.2.0",
     "bedrock-validation": "^2.2.1",
     "bedrock-views": "^5.1.0",
-    "bedrock-webpack": "^1.0.2",
+    "bedrock-webpack": "digitalbazaar/bedrock-webpack#excludeLocalForage",
     "credit-card-type": "^5.0.4",
     "font-awesome": "^4.7.0",
+    "localforage": "^1.5.0",
     "payment-handler-polyfill": "^0.1.0"
   },
   "bedrock": {
@@ -28,6 +29,7 @@
       "bedrock-angular-material",
       "credit-card-type",
       "font-awesome",
+      "localforage",
       "payment-handler-polyfill"
     ]
   },

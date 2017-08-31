@@ -36,20 +36,18 @@
       </div>
     </section>
 
-    <section ng-if="$ctrl.instruments.length === 0"
+    <section ng-if="$ctrl.cards.length === 0"
       layout="row" layout-align="center">
       <div flex-gt-sm="33">
         You have not added any credit cards yet.
       </div>
     </section>
 
-    <section ng-if="$ctrl.instruments.length > 0"
+    <section ng-if="$ctrl.cards.length > 0"
       layout="row" layout-align="center">
       <div layout="column" flex-gt-sm="30">
-        <!-- TODO: pass instruments for demo for simplicity -- perhaps
-          implement lookup by key of more specific instrument info later -->
-        <ph-credit-card ng-repeat="card in $ctrl.instruments"
-          ph-card="card" ph-on-delete="$ctrl.deleteInstrument(card)">
+        <ph-credit-card ng-repeat="card in $ctrl.cards"
+          ph-card="card" ph-on-delete="$ctrl.deleteCard(card)">
         </ph-credit-card>
       </div>
     </section>

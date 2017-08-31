@@ -17,6 +17,6 @@ function Ctrl() {
   const self = this;
 
   self.$onChanges = () => {
-    self.cardIcon = 'fa-cc-' + self.card.capabilities.supportedNetworks[0];
+    self.cardIcon = 'fa-cc-' + self.card.type;
   };
 }
