@@ -39,13 +39,13 @@ function Ctrl($scope) {
       const response = await pr.show();
       console.log('response at merchant site', response);
       self.paymentDetails = response.details;
+      self.bought = true;
       $scope.$apply();
     } catch(e) {
       console.error(e);
     }
 
     self.buying = false;
-    self.bought = true;
     $scope.$apply();
   };
 }
