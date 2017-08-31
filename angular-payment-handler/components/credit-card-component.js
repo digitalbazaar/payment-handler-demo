@@ -6,7 +6,7 @@
 export default {
   bindings: {
     card: '<phCard',
-    onDelete: '&phOnDelete'
+    onDelete: '&?phOnDelete'
   },
   controller: Ctrl,
   templateUrl: 'angular-payment-handler/credit-card-component.html'
@@ -17,6 +17,8 @@ function Ctrl() {
   const self = this;
 
   self.$onChanges = () => {
-    self.cardIcon = 'fa-cc-' + self.card.type;
+    if(self.card) {
+      self.cardIcon = 'fa-cc-' + self.card.type;
+    }
   };
 }

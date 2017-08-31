@@ -1,38 +1,61 @@
-<div style="background-color: white; border: 1px solid #ddd">
-  <h3>Example Payment Handler</h3>
-  <p>
-    This is a payment handler demonstration website. It has been loaded
-    during a payment request from a merchant website.
-    <a href="" ng-click="$ctrl.showDetails=!$ctrl.showDetails">Show technical details</a>
-  </p>
-  <div ng-if="$ctrl.showDetails">
-    <p>This website uses the Payment Handler API polyfill. It calls
-    code that looks like this to receive a payment request:</p>
-    <pre>
-      const handler = new PaymentHandler(MEDIATOR_ORIGIN);
+<div layout="column" style="background-color: white; border: none">
+  <md-toolbar class="md-whiteframe-2dp">
+    <div class="md-toolbar-tools">
+      <h3 class="md-toolbar-item md-headline">Example Payment Handler Website</h3>
+    </div>
+  </md-toolbar>
 
-      handler.addEventListener('paymentrequest', event => {
-        event.respondWith(new Promise(async (resolve, reject) => {
-          window.addEventListener('message', e => {
-            // wait for message from the window we opened with payment response
-            resolve(e.data.response);
+  <div ng-if="$ctrl.loading" class="container" layout-padding>
+    <md-progress-linear md-mode="query"></md-progress-linear>
+    <div class="bottom-block">
+      <span>Loading payment request details...</span>
+    </div>
+  </div>
+
+  <md-content ng-if="!$ctrl.loading" layout="row">
+    <div flex="33"></div>
+    <div flex="34" layout="column" layout-padding>
+      <div><strong>{{$ctrl.merchantDomain}}</strong> has requested payment</div>
+      <ph-credit-card ph-card="$ctrl.card"></ph-credit-card>
+      <div layout="row" flex>
+        <div>Total</div>
+        <span flex></span>
+        <div>{{$ctrl.paymentRequest.total.amount.currency}} {{$ctrl.paymentRequest.total.amount.value}}</div>
+      </div>
+      <div layout="row" flex>
+        <md-button class="md-raised md-primary" ng-disabled="$ctrl.paying"
+          ng-click="$ctrl.pay()" flex>
+          Confirm
+        </md-button>
+        <!-- TODO: cancel -->
+      </div>
+
+      <p>
+        This is a payment handler demonstration website. It has been loaded
+        during a payment request from a merchant website.
+        <a href="" ng-click="$ctrl.showDetails=!$ctrl.showDetails">Show technical details</a>
+      </p>
+
+      <div ng-if="$ctrl.showDetails">
+        <p>This website uses the Payment Handler API polyfill. It calls
+        code that looks like this to receive a payment request:</p>
+        <pre>
+          const handler = new PaymentHandler(MEDIATOR_ORIGIN);
+
+          handler.addEventListener('paymentrequest', event => {
+            event.respondWith(new Promise(async (resolve, reject) => {
+              window.addEventListener('message', e => {
+                // wait for message from the window we opened with payment response
+                resolve(e.data.response);
+              });
+
+              // open a window (with the content you see above)
+              const windowClient = await event.openWindow('/payment-request');
+            }));
           });
-
-          // open a window (with the content you see above)
-          const windowClient = await event.openWindow('/payment-request');
-        }));
-      });
-    </pre>
-  </div>
-  <div ng-if="$ctrl.paymentRequest">
-    <div>{{$ctrl.paymentRequest.topLevelOrigin}} is requesting payment</div>
-    <div>Do you want to pay {{$ctrl.paymentRequest.total.amount.value}} {{$ctrl.paymentRequest.total.amount.currency}} ?</div>
-    <!-- <div>Credit card: X</div> -->
-    <button ng-click="$ctrl.pay()">Pay</button>
-  </div>
-  <div>
-    <a href="" ng-click="$ctrl.addPaymentInstrument()">Add a credit card</a>
-  </div>
+        </pre>
+      </div>
+    </div>
+    <div flex="33"></div>
+  </md-content>
 </div>
-
-<!-- TODO: add stackable modal for adding a CC -->

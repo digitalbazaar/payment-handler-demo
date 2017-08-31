@@ -9,7 +9,7 @@
     </md-card-title-media>
   </md-card-title>
   <md-card-actions layout="row" layout-align="end center">
-    <md-button class="md-warn"
+    <md-button class="md-warn" ng-if="$ctrl.onDelete"
       ng-click="$ctrl.onDelete({card: $ctrl.card})">Delete</md-button>
   </md-card-actions>
 </md-card>

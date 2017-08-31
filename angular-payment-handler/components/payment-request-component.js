@@ -3,6 +3,9 @@
  */
 'use strict';
 
+import localforage from 'localforage';
+import {utils} from 'web-request-rpc';
+
 export default {
   controller: Ctrl,
   templateUrl: 'angular-payment-handler/payment-request-component.html'
@@ -11,24 +14,28 @@ export default {
 /* @ngInject */
 function Ctrl($scope) {
   const self = this;
+  self.loading = true;
 
-  window.addEventListener('message', event => {
+  const cardStorage = localforage.createInstance({name: 'cards'});
+
+  window.addEventListener('message', async event => {
     console.log('frontend got payment request info', event.data);
     self.paymentRequest = event.data;
+    self.merchantDomain = utils.parseUrl(
+      self.paymentRequest.topLevelOrigin).hostname;
+    self.card = await cardStorage.getItem(self.paymentRequest.instrumentKey);
+    console.log('card', self.card);
+    delete self.card.key;
+    self.loading = false;
     $scope.$apply();
   });
 
   self.pay = () => {
+    self.paying = true;
     window.parent.postMessage({
       // TODO: update once data sent to handler is cleaned up
       methodName: self.paymentRequest.methodData[0].supportedMethods[0],
-      details: {
-        cardHolderName: 'Pat Smith',
-        cardNumber: '1232343451234',
-        expiryMonth: '12',
-        expiryYear: '2020',
-        cardSecurityCode: '123'
-      }
+      details: self.card
     }, window.location.origin);
   };
 
