@@ -131,7 +131,8 @@ function Ctrl($mdDialog, $scope) {
 
   async function getCards(registration) {
     const keys = await registration.paymentManager.instruments.keys();
-    return await Promise.all(keys.map(key => cardStorage.getItem(key)));
+    const cards = await Promise.all(keys.map(key => cardStorage.getItem(key)));
+    return cards.filter(card => !!card);
   }
 }
 
