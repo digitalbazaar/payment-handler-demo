@@ -8,7 +8,7 @@ import HomeComponent from './home-component';
 
 'use strict';
 
-const module = angular.module('angular-payment-merchant', []);
+const module = angular.module('angular-payment-merchant', ['ngMaterial']);
 module.component('pmHome', HomeComponent);
 
 bedrock.setRootModule(module);

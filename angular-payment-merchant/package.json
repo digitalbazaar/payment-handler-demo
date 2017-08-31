@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "main": "index.js",
+  "less": "main.less",
   "scripts": {
     "start": "node dev.js",
     "postinstall": "node dev.js compile-less"
@@ -10,17 +11,21 @@
   "dependencies": {
     "bedrock": "^1.4.1",
     "bedrock-angular": "^3.0.0",
+    "bedrock-angular-material": "^1.0.1",
     "bedrock-docs": "^2.1.0",
     "bedrock-express": "^2.0.6",
     "bedrock-server": "^2.2.0",
     "bedrock-validation": "^2.2.1",
     "bedrock-views": "^5.1.0",
     "bedrock-webpack": "^1.0.2",
+    "font-awesome": "^4.7.0",
     "payment-handler-polyfill": "^0.1.0"
   },
   "bedrock": {
     "browserDependencies": [
       "bedrock-angular",
+      "bedrock-angular-material",
+      "font-awesome",
       "payment-handler-polyfill"
     ]
   },

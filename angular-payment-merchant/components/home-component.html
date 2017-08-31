@@ -1,42 +1,66 @@
-<div>
-  <h3>Web Payments Merchant Example</h3>
-  <p>
-    This is a credential verifier (relying party) demonstration website.
-    <a href="" ng-click="$ctrl.showDetails=!$ctrl.showDetails">Show technical details</a>
-  </p>
-  <div ng-if="$ctrl.showDetails">
-    <p>This website uses the Payment Handler API polyfill. It calls
-    code that looks like this to request payment:</p>
-    <pre>
-      async function pay() {
-        try {
-          const pr = new PaymentRequest([{
-            supportedMethods: ['basic-card']
-          }], {
-            total: {
-              label: 'Total',
-              amount: {currency: 'USD', value: '1.00'}
-            }
-          });
-          const response = await pr.show();
-          console.log('payment response', response);
-        } catch(e) {
-          console.error(e);
-        }
-      };
-    </pre>
-  </div>
-  <div>
-    Item X
-  </div>
-  <div>
-    $1.00
-  </div>
-  <div>
-    <button ng-click="$ctrl.buy()">Buy</button>
-  </div>
-  <div ng-if="$ctrl.paymentDetails">
-    <div>Payment complete, here's all of your payment credentials! =)</div>
-    <pre>{{$ctrl.paymentDetails | json}}</pre>
-  </div>
+<div layout="column">
+
+  <md-toolbar class="md-whiteframe-2dp md-warn md-hue-3">
+    <div class="md-toolbar-tools">
+      <i class="fa fa-shopping-cart fa-lg" style="margin-right: 10px"></i>
+      <h3 class="md-toolbar-item md-headline">Example Web Payments Merchant Website</h3>
+    </div>
+  </md-toolbar>
+
+  <md-content layout="row">
+    <div flex="33"></div>
+    <div flex="34" layout="column" layout-padding>
+      <div ng-if="!$ctrl.bought" layout="row" flex layout-padding>
+        <div>Mystery Widget X</div>
+        <span flex></span>
+        <div>USD 1.00</div>
+      </div>
+      <div ng-if="!$ctrl.bought" layout="row" flex>
+        <md-button class="md-raised md-primary" ng-disabled="$ctrl.buying"
+          ng-click="$ctrl.buy()" flex>
+          Buy
+        </md-button>
+      </div>
+      <div ng-if="$ctrl.paymentDetails" layout-padding>
+        <div style="border: 1px solid lightgray; padding: 20px">
+          <i class="fa fa-check fa-lg" style="color: green; vertical-align: 0; margin-right: 5px"></i>
+          <span style="font-size: 20px">Purchase complete!</span>
+        </div>
+        <div style="margin-top: 10px">
+          Click <a href="" ng-click="$ctrl.showCredentials=!$ctrl.showCredentials">here</a> to see received demo payment
+          credentials. <span ng-if="$ctrl.bought">Click <a href="" ng-click="$ctrl.bought=false">here</a> to start buying again.</span>
+        </div>
+        <pre ng-if="$ctrl.showCredentials">{{$ctrl.paymentDetails | json}}</pre>
+      </div>
+      <div layout="column" layout-padding>
+        <p>
+          This is a credential verifier (relying party) demonstration website.
+          <a href="" ng-click="$ctrl.showDetails=!$ctrl.showDetails">Show technical details</a>
+        </p>
+        <div ng-if="$ctrl.showDetails">
+          <p>This website uses the Payment Handler API polyfill. It calls
+          code that looks like this to request payment:</p>
+          <pre>
+            async function pay() {
+              try {
+                const pr = new PaymentRequest([{
+                  supportedMethods: ['basic-card']
+                }], {
+                  total: {
+                    label: 'Total',
+                    amount: {currency: 'USD', value: '1.00'}
+                  }
+                });
+                const response = await pr.show();
+                console.log('payment response', response);
+              } catch(e) {
+                console.error(e);
+              }
+            };
+          </pre>
+        </div>
+      </div>
+    </div>
+    <div flex="33"></div>
+  </md-content>
 </div>

@@ -12,9 +12,13 @@ export default {
 /* @ngInject */
 function Ctrl($scope) {
   const self = this;
+  self.bought = false;
+  self.buying = false;
   const PaymentRequest = navigator.paymentPolyfill.PaymentRequest;
 
   self.buy = async () => {
+    self.buying = true;
+
     const pr = new PaymentRequest([{
       supportedMethods: ['basic-card']
     }], {
@@ -39,5 +43,9 @@ function Ctrl($scope) {
     } catch(e) {
       console.error(e);
     }
+
+    self.buying = false;
+    self.bought = true;
+    $scope.$apply();
   };
 }
