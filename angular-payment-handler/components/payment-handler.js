@@ -45,7 +45,8 @@ export async function activate() {
           return windowClient.postMessage({
             topLevelOrigin: event.topLevelOrigin,
             methodData: event.methodData,
-            total: event.total
+            total: event.total,
+            instrumentKey: event.instrumentKey
           }, window.location.origin);
         }
 

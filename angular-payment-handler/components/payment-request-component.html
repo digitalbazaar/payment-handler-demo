@@ -1,6 +1,7 @@
-<div layout="column" style="background-color: white; border: none">
+<div layout="column" style="background-color: white">
   <md-toolbar class="md-whiteframe-2dp">
     <div class="md-toolbar-tools">
+      <i class="fa fa-bank fa-lg" style="margin-right: 10px"></i>
       <h3 class="md-toolbar-item md-headline">Example Payment Handler Website</h3>
     </div>
   </md-toolbar>
@@ -15,9 +16,11 @@
   <md-content ng-if="!$ctrl.loading" layout="row">
     <div flex="33"></div>
     <div flex="34" layout="column" layout-padding>
-      <div><strong>{{$ctrl.merchantDomain}}</strong> has requested payment</div>
+      <div layout-padding>
+        <strong>{{$ctrl.merchantDomain}}</strong> has requested payment
+      </div>
       <ph-credit-card ph-card="$ctrl.card"></ph-credit-card>
-      <div layout="row" flex>
+      <div layout="row" flex layout-padding>
         <div>Total</div>
         <span flex></span>
         <div>{{$ctrl.paymentRequest.total.amount.currency}} {{$ctrl.paymentRequest.total.amount.value}}</div>
@@ -30,30 +33,32 @@
         <!-- TODO: cancel -->
       </div>
 
-      <p>
-        This is a payment handler demonstration website. It has been loaded
-        during a payment request from a merchant website.
-        <a href="" ng-click="$ctrl.showDetails=!$ctrl.showDetails">Show technical details</a>
-      </p>
+      <div layout="column" layout-padding>
+        <p>
+          This is a payment handler demonstration website. It has been loaded
+          during a payment request from a merchant website.
+          <a href="" ng-click="$ctrl.showDetails=!$ctrl.showDetails">Show technical details</a>
+        </p>
 
-      <div ng-if="$ctrl.showDetails">
-        <p>This website uses the Payment Handler API polyfill. It calls
-        code that looks like this to receive a payment request:</p>
-        <pre>
-          const handler = new PaymentHandler(MEDIATOR_ORIGIN);
+        <div ng-if="$ctrl.showDetails">
+          <p>This website uses the Payment Handler API polyfill. It calls
+          code that looks like this to receive a payment request:</p>
+          <pre>
+            const handler = new PaymentHandler(MEDIATOR_ORIGIN);
 
-          handler.addEventListener('paymentrequest', event => {
-            event.respondWith(new Promise(async (resolve, reject) => {
-              window.addEventListener('message', e => {
-                // wait for message from the window we opened with payment response
-                resolve(e.data.response);
-              });
+            handler.addEventListener('paymentrequest', event => {
+              event.respondWith(new Promise(async (resolve, reject) => {
+                window.addEventListener('message', e => {
+                  // wait for message from the window we opened with payment response
+                  resolve(e.data.response);
+                });
 
-              // open a window (with the content you see above)
-              const windowClient = await event.openWindow('/payment-request');
-            }));
-          });
-        </pre>
+                // open a window (with the content you see above)
+                const windowClient = await event.openWindow('/payment-request');
+              }));
+            });
+          </pre>
+        </div>
       </div>
     </div>
     <div flex="33"></div>
