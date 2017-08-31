@@ -8,7 +8,7 @@
     "postinstall": "node dev.js compile-less"
   },
   "dependencies": {
-    "angular-web-request-mediator": "digitalbazaar/angular-web-request-mediator#wip",
+    "angular-web-request-mediator": "^0.1.0",
     "bedrock": "^1.4.1",
     "bedrock-angular": "^3.0.0",
     "bedrock-docs": "^2.1.0",
