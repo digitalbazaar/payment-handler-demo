@@ -16,7 +16,11 @@ function Ctrl($scope) {
   const self = this;
   self.loading = true;
 
-  const cardStorage = localforage.createInstance({name: 'cards'});
+  const cardStorage = localforage.createInstance({
+    // FIXME: forced to localstorage for Safari compatibility
+    driver: localforage.LOCALSTORAGE,
+    name: 'cards'
+  });
 
   window.addEventListener('message', async event => {
     console.log('frontend got payment request info', event.data);

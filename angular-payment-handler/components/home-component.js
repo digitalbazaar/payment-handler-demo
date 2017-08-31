@@ -33,7 +33,11 @@ const CARD_ICONS = {
 function Ctrl($mdDialog, $scope) {
   const self = this;
 
-  const cardStorage = localforage.createInstance({name: 'cards'});
+  const cardStorage = localforage.createInstance({
+    // FIXME: forced to localstorage for Safari compatibility
+    driver: localforage.LOCALSTORAGE,
+    name: 'cards'
+  });
 
   let registration;
 
