@@ -39,7 +39,9 @@ if(window.location.pathname === '/payment-handler') {
 }
 
 /* @ngInject */
-module.config($routeProvider => {
+module.config(($mdIconProvider, $routeProvider) => {
+  $mdIconProvider.defaultFontSet('fa');
+
   $routeProvider
     .when('/', {
       title: 'Payment Handler Example',

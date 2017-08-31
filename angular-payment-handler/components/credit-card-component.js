@@ -5,7 +5,8 @@
 
 export default {
   bindings: {
-    //card: '&phCard'
+    card: '<phCard',
+    onDelete: '&phOnDelete'
   },
   controller: Ctrl,
   templateUrl: 'angular-payment-handler/credit-card-component.html'
@@ -15,22 +16,7 @@ export default {
 function Ctrl() {
   const self = this;
 
-  self.card = {
-    name: 'Pat Doe',
-    number: '4111111111111234',
-    type: 'visa'
+  self.$onChanges = () => {
+    self.cardIcon = 'fa-cc-' + self.card.capabilities.supportedNetworks[0];
   };
-
-  const supportedCards = {
-    visa: 'visa',
-    'master-card': 'mastercard',
-    'american-express': 'amex',
-    'diners-club': 'diners-club',
-    discover: 'discover',
-    jcb: 'jcb'
-  };
-
-  self.cardIcon = 'fa-cc-' + supportedCards[self.card.type];
-
-  // TODO:
 }

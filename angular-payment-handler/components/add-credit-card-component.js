@@ -7,7 +7,8 @@ import creditCardType from 'credit-card-type';
 
 export default {
   bindings: {
-    onAdd: '&phOnAdd'
+    onAdd: '&phOnAdd',
+    onCancel: '&phOnCancel'
   },
   controller: Ctrl,
   templateUrl: 'angular-payment-handler/add-credit-card-component.html'
@@ -54,11 +55,38 @@ function Ctrl() {
     self.cardClass = {};
     if(self.card.number) {
       const card = creditCardType(self.card.number)[0];
-      console.log('card', card);
       if(card && card.type in supportedCards) {
-        self.card.type = card.type;
-        self.cardClass['fa-cc-' + supportedCards[card.type]] = true;
+        self.card.type = supportedCards[card.type];
+        self.cardClass['fa-cc-' + self.card.type] = true;
       }
     }
   };
+
+  // FIXME: remove mock cards
+  const expireYear = (firstYear + 1).toString().substr(2);
+  const mockCards = [{
+    name: 'Pat Doe',
+    number: '4111111111111234',
+    type: 'visa',
+    expirationMonth: '01',
+    expirationYear: expireYear,
+    securityCode: '123'
+  }, {
+    name: 'Pat Doe',
+    number: '5111111111115678',
+    type: 'mastercard',
+    expirationMonth: '02',
+    expirationYear: expireYear,
+    securityCode: '123'
+  }, {
+    name: 'Sam Doe',
+    number: '3411111111112277',
+    type: 'amex',
+    expirationMonth: '03',
+    expirationYear: expireYear,
+    securityCode: '123'
+  }];
+  self.card = Object.assign(
+    {}, mockCards[Math.floor(Math.random() * mockCards.length)]);
+  self.onChange();
 }

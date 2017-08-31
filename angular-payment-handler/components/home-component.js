@@ -9,15 +9,46 @@ export default {
   templateUrl: 'angular-payment-handler/home-component.html'
 };
 
+const CARD_ICONS = {
+  visa: {
+    src: '/images/new_visa.gif',
+    sizes: '40x40',
+    type: 'image/gif'
+  },
+  mastercard: {
+    src: '/images/mastercard_logo_2.gif',
+    sizes: '40x40',
+    type: 'image/gif'
+  },
+  amex: {
+    src: '/images/american_express_logo_1.gif',
+    sizes: '40x40',
+    type: 'image/gif'
+  }
+};
+
 /* @ngInject */
-function Ctrl($scope) {
+function Ctrl($mdDialog, $scope) {
   const self = this;
 
-  self.install = async () => {
-    console.log('installing...');
+  let registration;
+
+  self.$onInit = async () => {
     try {
-      await install();
-      console.log('installation complete.');
+      registration = await getRegistration();
+      self.instruments = await getInstruments(registration);
+      self.installed = true;
+    } catch(e) {
+      console.log('fail', e);
+      self.installed = false;
+      self.instruments = [];
+    }
+    $scope.$apply();
+  };
+
+  self.install = async () => {
+    try {
+      registration = await install();
       self.installed = true;
       $scope.$apply();
     } catch(e) {
@@ -26,25 +57,87 @@ function Ctrl($scope) {
   };
 
   self.uninstall = async () => {
-    console.log('uninstalling...');
     try {
       self.installed = self.uninstalled = false;
       await uninstall();
       self.uninstalled = true;
+      registration = null;
       $scope.$apply();
-      console.log('uninstallation complete.');
     } catch(e) {
       console.error('uninstallation failed,', e);
     }
   };
 
   self.addCard = async () => {
-    // TODO:
+    let card;
+    try {
+      card = await $mdDialog.show({
+        templateUrl: 'angular-payment-handler/add-credit-card-dialog.html',
+        controller: () => {},
+        bindToController: true,
+        controllerAs: '$ctrl',
+        locals: {
+          home: self
+        },
+        clickOutsideToClose: false,
+        escapeToClose: true,
+        fullscreen: true
+      });
+    } catch(e) {
+      // assume canceled
+      return;
+    }
+
+    // add card
+    await addInstrument(registration, card);
+
+    // refresh instruments
+    self.instruments = await getInstruments(registration);
+    console.log('got instruments', self.instruments);
+
+    $scope.$apply();
+  };
+
+  self.confirmAddCard = async (card) => {
+    $mdDialog.hide(card);
+  };
+
+  self.cancelAddCard = async () => {
+    console.log('called cancel');
+    $mdDialog.cancel();
+  };
+
+  self.clearCards = async () => {
+    console.log('clearing instruments');
+    await registration.paymentManager.instruments.clear();
+    self.instruments = await getInstruments(registration);
+    $scope.$apply();
+  };
+
+  self.deleteInstrument = async (instrument) => {
+    console.log('deleting instrument', instrument);
+    await registration.paymentManager.instruments.delete(instrument.key);
+    self.instruments = await getInstruments(registration);
+    $scope.$apply();
   };
 }
 
-async function install() {
+async function getRegistration() {
   const PaymentHandlers = navigator.paymentPolyfill.PaymentHandlers;
+
+  let registration;
+  try {
+    // get payment handler registration
+    registration = await PaymentHandlers.register('/payment-handler');
+  } catch(e) {
+    // ignore
+  }
+  return registration;
+}
+
+async function install() {
+  console.log('installing...');
+
   const PaymentManager = navigator.paymentPolyfill.PaymentManager;
 
   // ensure permission has been granted to add a payment instrument
@@ -53,15 +146,18 @@ async function install() {
     throw new Error('Permission denied.');
   }
 
-  // get payment handler registration
-  const registration = await PaymentHandlers.register('/payment-handler');
+  const registration = await getRegistration();
+  if(!registration) {
+    throw new Error('Payment handler not registered.');
+  }
 
-  console.log('adding instruments');
-  await addInstruments(registration);
-  console.log('payment instruments added');
+  console.log('installation complete.');
+  return registration;
 }
 
 async function uninstall() {
+  console.log('uninstalling...');
+
   const PaymentHandlers = navigator.paymentPolyfill.PaymentHandlers;
   const PaymentManager = navigator.paymentPolyfill.PaymentManager;
 
@@ -77,8 +173,10 @@ async function uninstall() {
 
   // revoke permission (useful for demonstration purposes)
   await navigator.paymentPolyfill.permissions.revoke({name: 'paymenthandler'});
-}
 
+  console.log('uninstallation complete.');
+}
+/*
 async function addInstruments(registration) {
   // TODO: add instrument collected from a UI credit card component instead of
   // hard coded data here
@@ -129,4 +227,33 @@ async function addInstruments(registration) {
         }
       })
     ]);
+}*/
+
+async function addInstrument(registration, card) {
+  const name = card.type[0].toUpperCase() + card.type.substr(1) +
+    ' *' + card.number.substr(-4);
+  const icon = CARD_ICONS[card.type];
+
+  return registration.paymentManager.instruments.set(
+    uuid(), {
+      name: name,
+      icons: icon ? [icon] : [],
+      enabledMethods: ['basic-card'],
+      capabilities: {
+        supportedNetworks: [card.type],
+        supportedTypes: ['credit', 'debit', 'prepaid']
+      }
+    });
 }
+
+async function getInstruments(registration) {
+  const keys = await registration.paymentManager.instruments.keys();
+  const instruments = await Promise.all(
+    keys.map(key => registration.paymentManager.instruments.get(key)));
+
+  return instruments.map((instrument, index) => Object.assign({
+    key: keys[index]
+  }, instrument));
+}
+
+function uuid(a){return a?(0|Math.random()*16).toString(16):(""+1e7+-1e3+-4e3+-8e3+-1e11).replace(/1|0/g,uuid)};

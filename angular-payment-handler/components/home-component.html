@@ -1,25 +1,58 @@
 <div layout="column">
-  <h3>Payment Handler Example</h3>
 
-  <div>
-    <a href="" ng-click="$ctrl.install()">Install Payment Handler</a>
-  </div>
-  <div>
-    <a href="" ng-click="$ctrl.uninstall()">Uninstall Payment Handler</a>
-  </div>
-
-  <md-toolbar>
+  <md-toolbar class="md-whiteframe-2dp">
     <div class="md-toolbar-tools">
-      <h3>
-        <span>Credit Cards</span>
-      </h3>
+      <h3 class="md-toolbar-item md-headline">Example Payment Handler Website</h3>
     </div>
   </md-toolbar>
 
-  <ph-credit-card></ph-credit-card>
+  <md-content layout="column">
 
-  <!-- TODO: do add-credit-card in a dialog? -->
+    <section layout="row" layout-align="center">
+      <div layout="row" flex-gt-sm="33" layout-align="space-between">
+        <h4>Payment Handler</h4>
+        <div>
+          <md-button class="md-raised md-primary"
+            ng-disabled="$ctrl.installed"
+            ng-click="$ctrl.install()">Install</md-button>
+          <md-button class="md-raised md-warn"
+            ng-disabled="!$ctrl.installed"
+            ng-click="$ctrl.uninstall()">Uninstall</md-button>
+        </div>
+      </div>
+    </section>
 
-  <ph-add-credit-card ph-on-add="$ctrl.addCard(card)" flex flex-gt-sm="30">
-  </ph-add-credit-card>
+    <section layout="row" layout-align="center">
+      <div layout="row" flex-gt-sm="33" layout-align="space-between">
+        <h4>Credit Cards</h4>
+        <div>
+          <md-button class="md-raised md-primary"
+            ng-disabled="!$ctrl.installed"
+            ng-click="$ctrl.addCard()">Add</md-button>
+          <md-button class="md-raised md-warn"
+            ng-disabled="!$ctrl.installed"
+            ng-click="$ctrl.clearCards()">Clear</md-button>
+        </div>
+      </div>
+    </section>
+
+    <section ng-if="$ctrl.instruments.length === 0"
+      layout="row" layout-align="center">
+      <div flex-gt-sm="33">
+        You have not added any credit cards yet.
+      </div>
+    </section>
+
+    <section ng-if="$ctrl.instruments.length > 0"
+      layout="row" layout-align="center">
+      <div layout="column" flex-gt-sm="30">
+        <!-- TODO: pass instruments for demo for simplicity -- perhaps
+          implement lookup by key of more specific instrument info later -->
+        <ph-credit-card ng-repeat="card in $ctrl.instruments"
+          ph-card="card" ph-on-delete="$ctrl.deleteInstrument(card)">
+        </ph-credit-card>
+      </div>
+    </section>
+
+  </md-content>
 </div>

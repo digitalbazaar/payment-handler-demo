@@ -1,28 +1,32 @@
-<div layout="column" layout-padding>
+<div layout="column">
   <md-toolbar>
     <div class="md-toolbar-tools">
-      <h3>
-        <span>Add Credit Card</span>
-      </h3>
+      <h2>Add Credit Card</h2>
+      <span flex></span>
+      <md-button class="md-icon-button" ng-click="$ctrl.onCancel()">
+        <!-- <md-icon md-font-set="material-icons" md-font-icon="clear"></md-icon> -->
+        <i class="material-icons">clear</i>
+      </md-button>
     </div>
   </md-toolbar>
 
-  <md-content>
+  <md-dialog-content layout-padding>
     <form name="$ctrl.cardForm">
       <div layout="row">
-        <md-input-container class="md-block" flex flex-gt-xs="50" flex-gt-sm="40">
+        <md-input-container class="md-block" flex>
           <label>Name (as it appears on the card)</label>
           <input ng-model="$ctrl.card.name" type="text" required>
         </md-input-container>
       </div>
 
       <div layout="row">
-        <md-input-container class="md-icon-float" flex flex-gt-xs="50" flex-gt-sm="40">
+        <md-input-container class="md-icon-float" flex
+          style="padding-right: 56px">
           <label>Credit card number</label>
           <input ng-model="$ctrl.card.number" ng-change="$ctrl.onChange()"
-          type="text" ng-pattern="/^[0-9]{16}$/"
-          md-minlength="16" md-maxlength="16" required>
-          <md-icon md-font-icon="fa fa-credit-card" ng-class="$ctrl.cardClass"></md-icon>
+            type="text" ng-pattern="/^[0-9]{16}$/"
+            md-minlength="16" md-maxlength="16" required>
+          <md-icon md-font-icon="fa fa-2x fa-credit-card" ng-class="$ctrl.cardClass"></md-icon>
         </md-input-container>
       </div>
 
@@ -52,23 +56,21 @@
             <input name="securityCode" ng-model="$ctrl.card.securityCode"
               placeholder="123" ng-pattern="/^[0-9]{3}$/" md-maxlength="3"
               required>
-            <div ng-messages="$ctrl.cardForm.securityCode.$error" role="alert" multiple>
-              <div ng-message="required">
-                You must provide a security code.
-              </div>
-              <div ng-message="pattern">
-                That doesn't look like a valid security code.
-              </div>
-              <div ng-message="md-maxlength">
-                That's too long.
-              </div>
+            <div ng-messages="$ctrl.cardForm.securityCode.$error" role="alert">
+              <div ng-message="required">A security code is required.</div>
+              <div ng-message="pattern">The security code is invalid.</div>
+              <div ng-message="md-maxlength">The security code is too long.</div>
             </div>
           </md-input-container>
         </div>
       </div>
     </form>
-  </md-content>
+  </md-dialog-content>
 
-  <md-button ng-click="$ctrl.onAdd({card: $ctrl.card})"
-    class="md-raised md-primary">Add</md-button>
+  <md-dialog-actions layout="row">
+    <md-button
+      ng-disabled="!$ctrl.cardForm.$valid"
+      ng-click="$ctrl.onAdd({card: $ctrl.card})"
+      class="md-raised md-primary">Add</md-button>
+  </md-dialog-actions>
 </div>
