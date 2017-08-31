@@ -17,8 +17,8 @@
     "bedrock-validation": "^2.2.1",
     "bedrock-views": "^5.1.0",
     "bedrock-webpack": "digitalbazaar/bedrock-webpack#excludeLocalForage",
-    "payment-mediator-polyfill": "^0.1.0",
     "font-awesome": "^4.7.0",
+    "payment-mediator-polyfill": "^0.1.0",
     "web-request-rpc": "^0.1.0"
   },
   "bedrock": {
