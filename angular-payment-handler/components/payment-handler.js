@@ -4,13 +4,10 @@
 /* global navigator */
 'use strict';
 
-//const MEDIATOR_ORIGIN = 'https://payment.mediator.dev:12443';
-const MEDIATOR_ORIGIN = 'https://payment-mediator.demo.digitalbazaar.com';
-
-export async function activate() {
+export async function activate(mediatorOrigin) {
   console.log('payment handler activating!');
   const PaymentHandler = navigator.paymentPolyfill.PaymentHandler;
-  const self = new PaymentHandler(MEDIATOR_ORIGIN);
+  const self = new PaymentHandler(mediatorOrigin);
 
   self.addEventListener('paymentrequest', event => {
     // TODO: handle event
