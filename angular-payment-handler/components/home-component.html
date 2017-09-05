@@ -7,10 +7,10 @@
     </div>
   </md-toolbar>
 
-  <md-content layout="column">
-
-    <section layout="row" layout-align="center">
-      <div layout="row" flex-gt-sm="33" layout-align="space-between">
+  <md-content layout="row">
+    <div flex="33"></div>
+    <div flex="34" layout="column" layout-padding>
+      <div layout="row" layout-align="space-between">
         <h4>Payment Handler</h4>
         <div>
           <md-button class="md-raised md-primary"
@@ -21,10 +21,8 @@
             ng-click="$ctrl.uninstall()">Uninstall</md-button>
         </div>
       </div>
-    </section>
 
-    <section layout="row" layout-align="center">
-      <div layout="row" flex-gt-sm="33" layout-align="space-between">
+      <div layout="row" layout-align="space-between">
         <h4>Credit Cards</h4>
         <div>
           <md-button class="md-raised md-primary"
@@ -35,23 +33,68 @@
             ng-click="$ctrl.clearCards()">Clear</md-button>
         </div>
       </div>
-    </section>
 
-    <section ng-if="$ctrl.cards.length === 0"
-      layout="row" layout-align="center">
-      <div flex-gt-sm="33">
-        You have not added any credit cards yet.
+      <div ng-if="$ctrl.cards.length === 0" layout="row">
+        <div>
+          You have not added any credit cards yet.
+        </div>
       </div>
-    </section>
 
-    <section ng-if="$ctrl.cards.length > 0"
-      layout="row" layout-align="center">
-      <div layout="column" flex-gt-sm="30">
-        <ph-credit-card ng-repeat="card in $ctrl.cards"
-          ph-card="card" ph-on-delete="$ctrl.deleteCard(card)">
-        </ph-credit-card>
+      <div ng-if="$ctrl.cards.length > 0" layout="column">
+        <div layout="row" ng-repeat="card in $ctrl.cards">
+          <ph-credit-card ph-card="card" ph-on-delete="$ctrl.deleteCard(card)" flex>
+          </ph-credit-card>
+        </div>
       </div>
-    </section>
 
+      <div layout="column" layout-padding>
+        <p>
+          This is a payment handler demonstration website. It allows you to register a
+          "payment handler" that can handle payment requests from other websites.
+          <a href="" ng-click="$ctrl.showDetails=!$ctrl.showDetails">Show technical details</a>
+        </p>
+        <div ng-if="$ctrl.showDetails">
+          <p>This website uses the Payment Handler API polyfill. It calls
+          code that looks like this add choices for users to select to fulfill
+          requests for payment:</p>
+          <pre>
+            async function install() {
+              const result = await PaymentManager.requestPermission();
+              if(result !== 'granted') {
+                throw new Error('Permission denied.');
+                return;
+              }
+
+              // get payment handler registration
+              const registration = await PaymentHandlers.register('/payment-handler');
+
+              await addInstruments(registration);
+            }
+
+            async function addInstruments(registration) {
+              return Promise.all([
+                registration.paymentManager.instruments.set(
+                  // this could be a UUID -- any 'key' understood by this wallet
+                  'default',
+                  {
+                    name: 'Visa *1234',
+                    icons: [{
+                      src: '/images/new_visa.gif',
+                      sizes: '40x40',
+                      type: 'image/gif'
+                    }],
+                    enabledMethods: ['basic-card'],
+                    capabilities: {
+                      supportedNetworks: ['visa'],
+                      supportedTypes: ['credit', 'debit', 'prepaid']
+                    }
+                  })
+                ]);
+            }
+          </pre>
+        </div>
+      </div>
+    </div>
+    <div flex="33"></div>
   </md-content>
 </div>
