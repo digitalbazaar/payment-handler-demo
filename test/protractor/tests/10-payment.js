@@ -47,6 +47,7 @@ describe('Payment Handler Tests', () => {
     browser.wait(EC.visibilityOf($('pm-mediator')), 5000);
     element(by.buttonText('Pay')).click();
     browser.wait(EC.visibilityOf($('iframe')), 5000);
+    browser.waitForAngularEnabled(false);
     // NOTE: this is a non-angular page and has 2 child iframes
     browser.switchTo().frame(0);
     // NOTE: this page is angular
@@ -56,6 +57,7 @@ describe('Payment Handler Tests', () => {
     browser.switchTo().defaultContent();
   });
   it('confirms payment details', () => {
+    browser.waitForAngularEnabled(true);
     browser.wait(EC.visibilityOf($('pm-home')), 5000);
     element.all(by.linkText('here')).get(0).click();
     $('pre').getText().then(paymentText => {
