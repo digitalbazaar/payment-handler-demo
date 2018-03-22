@@ -11,7 +11,7 @@ require('bedrock-server');
 // server info
 config.server.port = 11443;
 config.server.httpPort = 11080;
-config.server.domain = 'example.payment-handler.dev';
+config.server.domain = 'example.payment-handler.localhost';
 
 // angular-payment-handler pseudo package
 const rootPath = path.join(__dirname, '..');

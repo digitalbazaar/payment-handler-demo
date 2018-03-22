@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "bedrock": "^1.4.1",
-    "bedrock-angular": "^3.0.0",
+    "bedrock-angular": "^4.0.0",
     "bedrock-angular-material": "^1.0.1",
     "bedrock-docs": "^2.1.0",
     "bedrock-express": "^2.0.6",

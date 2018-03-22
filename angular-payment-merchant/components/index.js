@@ -13,7 +13,7 @@ module.component('pmHome', HomeComponent);
 
 bedrock.setRootModule(module);
 
-//const MEDIATOR_ORIGIN = 'https://payment.mediator.dev:12443';
+//const MEDIATOR_ORIGIN = 'https://payment.mediator.localhost:12443';
 const MEDIATOR_ORIGIN = 'https://payment-mediator.demo.digitalbazaar.com';
 
 const loadPolyfillPromise = polyfill.loadOnce(

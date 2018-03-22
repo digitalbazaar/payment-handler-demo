@@ -20,7 +20,7 @@ module.component('phPaymentRequest', PaymentRequestComponent);
 
 console.log('payment handler loading at ', window.location.href);
 
-//const MEDIATOR_ORIGIN = 'https://payment.mediator.dev:12443';
+//const MEDIATOR_ORIGIN = 'https://payment.mediator.localhost:12443';
 const MEDIATOR_ORIGIN = 'https://payment-mediator.demo.digitalbazaar.com';
 
 const loadPolyfillPromise = polyfill.loadOnce(

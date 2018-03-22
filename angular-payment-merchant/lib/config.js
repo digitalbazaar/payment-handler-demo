@@ -10,7 +10,7 @@ require('bedrock-server');
 // server info
 config.server.port = 10443;
 config.server.httpPort = 10080;
-config.server.domain = 'example.merchant.dev';
+config.server.domain = 'example.merchant.localhost';
 
 // angular-payment-merchant pseudo package
 const rootPath = path.join(__dirname, '..');
