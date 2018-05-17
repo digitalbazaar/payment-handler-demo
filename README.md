@@ -7,7 +7,7 @@ https://stackoverflow.com/questions/38584273/local-storage-cross-domain-safari-d
 
 A live version of this demo can be run by following these steps:
 
-1. Go to https://payment-handler.demo.digitalbazaar.com/ and install a payment handler.
+1. Go to https://payment-handler.demo.digitalbazaar.com/ and install a payment handler and add some credit cards.
 2. Go to https://payment-merchant.demo.digitalbazaar.com/ and make a (fake) payment!
 
 A video of the demo can be found here:
