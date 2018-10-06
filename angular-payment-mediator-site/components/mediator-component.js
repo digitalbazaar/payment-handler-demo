@@ -69,7 +69,8 @@ function Ctrl($compile, $location, $scope) {
   };
 
   self.abortPayment = async () => {
-    self.requestPaymentPromise.reject(new Error('Payment aborted.'));
+    self.requestPaymentPromise.reject(
+      new DOMException('Payment aborted.', 'AbortError'));
     self.display = null;
     await navigator.paymentMediator.hide();
   };
@@ -80,6 +81,7 @@ function Ctrl($compile, $location, $scope) {
         relyingOrigin: self.relyingOrigin,
         requestPermission,
         showRequest,
+        abortRequest: self.abortPayment,
         customizeHandlerWindow({webAppWindow}) {
           updateHandlerWindow(webAppWindow);
         }
